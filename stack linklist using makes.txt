@@ -1,0 +1,220 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+// stackEntryType is same to "int"
+
+typedef int StackEntryType;
+typedef enum{FALSE,TRUE} Boolean;
+
+/*this struct use for make a one Node
+that means it is the one element of the stack*/
+
+
+typedef struct node{
+ StackEntryType data;
+ struct node *next;
+} Node;
+
+
+/*this struct is about stack.......
+that means this struct knows what is the top element and what is the number of elements...*/
+
+typedef struct {
+ int no_ele;
+ Node *top;
+}stack;
+
+
+
+
+
+
+
+
+/* THIS function is use to pop the top element in the stack. firstly check is stack empty...*/
+void Pop(stack *s){
+
+ if(s->top == NULL)
+    {printf("STACK IS EMPTY.....");}
+
+
+ else{
+ Node *np;
+ np=s->top;
+ printf("\n%d is removed...\n",s->top->data);
+ s->top=np->next;
+ s->no_ele--;
+ free(np);}
+
+
+}
+
+
+
+
+
+
+
+/* this function is use to push elements in the stack .. firstly check the is stack full */
+
+void Push(StackEntryType item,stack *s){
+
+Node *np;
+
+/*this np is use to find a memory location to store the value..*/
+np = (Node *)(malloc(sizeof(Node)));
+
+/*if np==Null your memory is FULL*/
+if( np == NULL){printf("\n\nSTACK IS FULL......\n\n");}
+
+else{
+     np->data = item;
+     np->next = s->top;
+     s->top = np;
+     s->no_ele++;
+     }
+}
+
+
+
+
+
+
+
+
+
+
+//this is about stack...thats the reason call createStack function
+
+void CreateStack(stack *s){
+   s ->top = NULL;
+   s ->no_ele = 0;
+ }
+
+
+
+
+
+ //this function is use to check stack is empty or not
+
+Boolean IsStackEmpty(stack *s){
+   if(s->top == NULL){return TRUE;}else{ return FALSE;}
+}
+
+
+
+
+
+
+
+
+
+//this function is use to print top element in the stack..
+
+void peek(stack *s){
+    printf("\nTOP VALUE IS -> %d\n",s->top->data);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//this function is use to print all element in the stack
+
+void Display(stack *s){
+ int i =0;
+ Node *temp ;
+ temp= s->top;
+ for (;i< s->no_ele;i++){
+        printf("\n%d\n",temp->data);
+        temp = temp->next;
+      }
+
+}
+
+
+
+
+
+
+
+
+
+ 
+
+
+//this is the main method.............
+
+int main()
+{
+
+// this use to access to the struct....about stack.....
+    stack s;
+
+int choice,element;
+    printf("Create a stack.........");
+    CreateStack(&s);
+    printf("Stack operations...\n");
+    printf(" 1.push\n 2.Pop\n 3.Peek\n 4.Display\n 5.IsStackEmpty\n 6.Exit\n");
+    do{     printf("Enter the your choice.....\n:-");
+            scanf("%d",&choice);
+            switch(choice){
+
+
+        case 1:
+            //call the push function....
+            printf("Enter the element to push....\n:-");
+            scanf("%d",&element);
+            Push(element,&s );
+            break;
+
+
+        case 2:
+            //call the pop fuction
+           Pop(&s);
+           break;
+
+
+        case 3:
+            //call the peek function
+            peek(&s);
+            break;
+
+
+        case 4:
+            //call the Display function
+            Display(&s);
+            break;
+
+
+        case 5:
+            //call the Exit function
+            if(IsStackEmpty(&s)){printf("\n\nSTACK IS EMPTY.....\n\n");}
+            else{printf("\n\nSTAK IS NOT EMPTY.....\n\n");};
+            break;
+
+
+        case 6:
+            printf("\n\nEXIT THE STACK.....\n\n");
+            break;
+
+
+
+        default:
+            printf("\nEnter the 1,2,3,4 or 5....\n");
+            }
+
+    }while(choice!=6);
+    return 0;
+}
